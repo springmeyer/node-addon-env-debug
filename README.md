@@ -1,0 +1,1 @@
+Testcase for how process.env works in Node.js across platforms.

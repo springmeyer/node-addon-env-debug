@@ -1,0 +1,10 @@
+{
+    "name" : "node-addon-env-debug",
+    "version" : "0.1.0",
+    "description" : "Testcase for how process.env works in Node.js across platforms",
+    "main" : "./index.js",
+    "author" : "Dane Springmeyer <springmeyer>",
+    "dependencies"  : {
+      "nan": "~1.4.0"
+    }
+}
