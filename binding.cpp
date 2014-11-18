@@ -21,7 +21,6 @@ static NAN_METHOD(addon_getenv)
             if (val != NULL) {
                 NanReturnValue(NanNew(val));
             } else {
-                NanThrowTypeError((std::string("hit an empty value for ") + key).c_str());
                 NanReturnUndefined();                
             }
         } else {
