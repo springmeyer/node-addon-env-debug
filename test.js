@@ -1,6 +1,7 @@
 var tape = require('tape');
 var path = require('path');
 
+var binding;
 
 tape('process.env can set and get variables', function(assert) {
     // env variable set before addon is required
@@ -10,11 +11,15 @@ tape('process.env can set and get variables', function(assert) {
     assert.end();
 });
 
-tape('process.env can set and get variables', function(assert) {
+tape('getenv sees process.env variable set before addon is required', function(assert) {
     // require addon now
-    var binding = require('./');
+    binding = require('./');
     // should be equal
     assert.equal(process.env.ENV_VARIABLE_A,binding.getenv('ENV_VARIABLE_A'));
+    assert.end();
+});
+
+tape('getenv sees process.env variable set after addon is required', function(assert) {
     // create a second env variable
     process.env.ENV_VARIABLE_B = "after";
     // make sure node.js thinks it is set
@@ -23,5 +28,3 @@ tape('process.env can set and get variables', function(assert) {
     assert.equal(process.env.ENV_VARIABLE_B,binding.getenv('ENV_VARIABLE_B'));
     assert.end();
 });
-
-console.log('all tests pass')
