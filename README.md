@@ -1,9 +1,8 @@
 Testcase for how process.env works in Node.js across platforms.
 
-This testcase asks the questions:
+This testcase asks the question:
 
-  - Can environment variables be set by modifying `process.env` at startup and does this work so that C-land code that calls `getenv` will see the environment setting?
-
+> Can you set environment variables by modifying `process.env` at startup such that that C-land code that calls `getenv` will see the environment setting?
 
 This impacts both node-addons that might bind libraries that call `getenv` or might themselves need to respond to values in the environment.
 
@@ -21,20 +20,20 @@ To run the testcase do:
 
 ## Observations
 
+ - Behavior is stable across node versions (both v0.10.33 and v0.11.13 were tested); but
  - Behavior is not stable across platforms.
- - Behavior is stable across node versions (both v0.10.33 and v0.11.13 were tested)
 
-### Linux / OSX
+#### Linux / OSX
 
  - Values returned from `getenv` respect those set on `process.env` both if `process.env` is modified before the node-addon is required and after
 
-### Windows with node.exe from http://nodejs.org/download/
+#### Windows with node.exe from http://nodejs.org/download/
 
 NOTE: this node.exe is likely compiled with visual studio 2013
 
  - Values returned from `getenv` respect those set on `process.env` only if `process.env` is modified before the node-addon is required
 
-### Windows with node.exe from https://github.com/mapbox/node-cpp11
+#### Windows with node.exe from https://github.com/mapbox/node-cpp11
 
 NOTE: this node.exe is [compiled with Visual Studio 2014 CTP 4](https://github.com/mapbox/node/pull/2)
 
