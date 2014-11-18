@@ -21,7 +21,7 @@ install:
   - CALL del /q /s "%NODE_EXE_PATH%"
   # add local node to path (since we install it for msvs_toolset == 14)
   - SET PATH=%CD%;%PATH%;
-  # add local node-pre-gyp dir to path
+  # add local node-gyp dir to path
   - SET PATH=node_modules\.bin;%PATH%
   # use 64 bit python if platform is 64 bit
   - if "%platform%" == "x64" set PATH=C:\Python27-x64;%PATH%
@@ -48,7 +48,7 @@ install:
   - del node_path.txt
   # should display MSVCP140.dll if built with visual studio 2014 and /MD
   - dumpbin /DEPENDENTS "%NODE_EXE_PATH%"
-  - .\node_modules\.bin\node-gyp build --msvs_version=2013 %BUILD_ARGS% --loglevel=http
+  - node-gyp build --msvs_version=2013 %BUILD_ARGS% --loglevel=http
   - dumpbin /DEPENDENTS .\build\Release\node-addon-env-debug.node
   - npm test
 
