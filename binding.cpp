@@ -48,10 +48,14 @@ static NAN_METHOD(addon_setenv)
         std::string key = *v8::String::Utf8Value(args[0]->ToString());
         std::string value = *v8::String::Utf8Value(args[1]->ToString());
         if (!key.empty() && !value.empty()) {
+            int ret = -1;
 #if defined(_MSC_VER)
-            int ret = _putenv_s(key.c_str(), value.c_str());
+            WCHAR* key_ptr = reinterpret_cast<WCHAR*>(*key);
+            if (key_ptr[0] != L'=') {
+                ret = _wputenv_s(key.c_str(), value.c_str());
+            }
 #else
-            int ret = setenv(key.c_str(), value.c_str(), 1);
+            ret = setenv(key.c_str(), value.c_str(), 1);
 #endif
             NanReturnValue(NanNew(ret));
         } else {
