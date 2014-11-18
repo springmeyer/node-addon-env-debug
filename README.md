@@ -38,3 +38,7 @@ NOTE: this node.exe is likely compiled with visual studio 2013
 NOTE: this node.exe is [compiled with Visual Studio 2014 CTP 4](https://github.com/mapbox/node/pull/2)
 
  - Values returned from `getenv` are empty and do no respect any values set on `process.env`. The only way for `getenv` to see environment settings is if they are set in the environment of the shell that starts node.exe.
+
+## References
+
+ - https://github.com/joyent/node/blob/7c0419730b237dbfa0ec4e6fb33a99ff01825a8f/src/node.cc#L2311-L2359

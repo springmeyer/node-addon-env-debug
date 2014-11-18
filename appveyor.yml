@@ -21,6 +21,9 @@ install:
   - CALL del /q /s "%NODE_EXE_PATH%"
   # add local node to path (since we install it for msvs_toolset == 14)
   - SET PATH=%CD%;%PATH%;
+  # install node-gyp so we can call it directly
+  # since npm does not respect --dist-url flag
+  - npm install node-gyp
   # add local node-pre-gyp dir to path
   - SET PATH=node_modules\.bin;%PATH%
   # use 64 bit python if platform is 64 bit
@@ -31,8 +34,13 @@ install:
   - if "%msvs_toolset%" == "12" powershell Install-Product node $env:nodejs_version $env:platform
   - if "%msvs_toolset%" == "14" powershell Write-Output "fetching https://mapbox.s3.amazonaws.com/node-cpp11/v$env:nodejs_version/${env:ARCHPATH}node.exe"
   - if "%msvs_toolset%" == "14" powershell Start-FileDownload "https://mapbox.s3.amazonaws.com/node-cpp11/v$env:nodejs_version/${env:ARCHPATH}node.exe"
+  - node -e "console.log(process.execPath)" > node_path.txt
+  - SET /p NODE_EXE_PATH=<node_path.txt
+  - del node_path.txt
+  # should display MSVCP140.dll if build with visual studio 2014 and /MD
+  - dumpbin /DEPENDENTS "%NODE_EXE_PATH%"
   # clear out node-gyp header cache
-  - if "%msvs_toolset%" == "14" rd /s /q %USERPROFILE%\.node-gyp
+  #- if "%msvs_toolset%" == "14" rd /s /q %USERPROFILE%\.node-gyp
   - SET PATH=C:\Program Files (x86)\MSBuild\%msvs_toolset%.0\bin;%PATH%
   - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\bin;%PATH%
   - if %platform% == x64 CALL "C:\Program Files (x86)\Microsoft Visual Studio %msvs_toolset%.0\VC\vcvarsall.bat" amd64
