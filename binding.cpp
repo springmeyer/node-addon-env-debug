@@ -17,7 +17,7 @@ static NAN_METHOD(addon_getenv)
         }
         std::string key = *v8::String::Utf8Value(args[0]->ToString());
         if (!key.empty()) {
-            char * val = getenv(key.c_str());
+            char * val = std::getenv(key.c_str());
             if (val != NULL) {
                 NanReturnValue(NanNew(val));
             } else {
@@ -32,6 +32,7 @@ static NAN_METHOD(addon_getenv)
         NanReturnUndefined();        
     }
 }
+
 
 extern "C" {
     static void start(v8::Handle<v8::Object> target) {
