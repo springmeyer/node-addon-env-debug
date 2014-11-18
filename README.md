@@ -42,3 +42,4 @@ NOTE: this node.exe is [compiled with Visual Studio 2014 CTP 4](https://github.c
 ## References
 
  - https://github.com/joyent/node/blob/7c0419730b237dbfa0ec4e6fb33a99ff01825a8f/src/node.cc#L2311-L2359
+ - http://www.codeproject.com/Articles/43029/When-what-you-set-is-not-what-you-get-SetEnvironme

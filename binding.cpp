@@ -45,23 +45,20 @@ static NAN_METHOD(addon_setenv)
             NanThrowTypeError("second argument must be a String");
             NanReturnUndefined();
         }
+        int ret = -1;
+#if defined(_MSC_VER)
+        v8::String::Value key(args[0]->ToString());
+        v8::String::Value val(args[1]->ToString());
+        WCHAR* key_ptr = reinterpret_cast<WCHAR*>(*key);
+        if (key_ptr[0] != L'=') {
+            ret = _wputenv_s(key.c_str(), value.c_str());
+        }
+#else
         std::string key = *v8::String::Utf8Value(args[0]->ToString());
         std::string value = *v8::String::Utf8Value(args[1]->ToString());
-        if (!key.empty() && !value.empty()) {
-            int ret = -1;
-#if defined(_MSC_VER)
-            WCHAR* key_ptr = reinterpret_cast<WCHAR*>(*key);
-            if (key_ptr[0] != L'=') {
-                ret = _wputenv_s(key.c_str(), value.c_str());
-            }
-#else
-            ret = setenv(key.c_str(), value.c_str(), 1);
+        ret = setenv(key.c_str(), value.c_str(), 1);
 #endif
-            NanReturnValue(NanNew(ret));
-        } else {
-            NanThrowTypeError("expects non empty key, value");
-            NanReturnUndefined();
-        }
+        NanReturnValue(NanNew(ret));
     } else {
         NanThrowTypeError("expects two arguments: a key and value");
         NanReturnUndefined();
