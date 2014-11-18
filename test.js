@@ -24,7 +24,7 @@ tape('getenv sees process.env variable set after addon is required', function(as
     binding = require('./');
     // create an env variable after requiring binding
     process.env.VARIABLE_3 = "VARIABLE_3";
-    // should be equal
+    // known/expected to fail on windows
     assert.equal(process.env.VARIABLE_3,binding.getenv('VARIABLE_3'));
     assert.end();
 });

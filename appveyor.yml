@@ -5,8 +5,24 @@ environment:
     - nodejs_version: 0.10.32
       platform: x64
       msvs_toolset: 12
-    # custom visual studio 2014 builds
+    - nodejs_version: 0.11.13
+      platform: x64
+      msvs_toolset: 12
+    # custom visual studio 2014 builds before this patch https://github.com/mapbox/node/commit/f29aea48f6fe0ec4a39f0e017c81a039c61d1f06
     - nodejs_version: 0.10.33
+      platform: x64
+      msvs_toolset: 14
+      BUILD_ARGS: --dist-url=https://s3.amazonaws.com/mapbox/node-cpp11/pre-putenv --toolset=v140
+    - nodejs_version: 0.11.14
+      platform: x64
+      msvs_toolset: 14
+      BUILD_ARGS: --dist-url=https://s3.amazonaws.com/mapbox/node-cpp11/pre-putenv --toolset=v140
+    # custom visual studio 2014 builds after this patch https://github.com/mapbox/node/commit/f29aea48f6fe0ec4a39f0e017c81a039c61d1f06
+    - nodejs_version: 0.10.33
+      platform: x64
+      msvs_toolset: 14
+      BUILD_ARGS: --dist-url=https://s3.amazonaws.com/mapbox/node-cpp11 --toolset=v140
+    - nodejs_version: 0.11.14
       platform: x64
       msvs_toolset: 14
       BUILD_ARGS: --dist-url=https://s3.amazonaws.com/mapbox/node-cpp11 --toolset=v140
@@ -49,7 +65,7 @@ install:
   # should display MSVCP140.dll if built with visual studio 2014 and /MD
   - dumpbin /DEPENDENTS "%NODE_EXE_PATH%"
   - npm install nan tape
-  - node-gyp rebuild --msvs_version=2013 %BUILD_ARGS% --loglevel=verbose
+  - node-gyp rebuild --msvs_version=2013 %BUILD_ARGS% --loglevel=http
   - dumpbin /DEPENDENTS .\build\Release\node-addon-env-debug.node
   - npm test
 
