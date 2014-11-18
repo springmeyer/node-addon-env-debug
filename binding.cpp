@@ -51,7 +51,7 @@ static NAN_METHOD(addon_setenv)
         v8::String::Value val(args[1]->ToString());
         WCHAR* key_ptr = reinterpret_cast<WCHAR*>(*key);
         if (key_ptr[0] != L'=') {
-            ret = _wputenv_s(key.c_str(), value.c_str());
+            ret = _wputenv_s(key_ptr, reinterpret_cast<WCHAR*>(*val));
         }
 #else
         std::string key = *v8::String::Utf8Value(args[0]->ToString());
