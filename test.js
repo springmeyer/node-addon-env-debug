@@ -31,9 +31,7 @@ tape('getenv sees process.env variable set after addon is required', function(as
 
 tape('getenv sees variable set by setenv/putenv', function(assert) {
     assert.equal(0,binding.setenv("VARIABLE_3","VARIABLE_3"));
-    // create a second env variable
-    process.env.VARIABLE_3 = "VARIABLE_3";
-    // make sure node.js thinks it is set
+    // make sure node.js picks up the newly set variable
     assert.equal(process.env.VARIABLE_3,"VARIABLE_3");
     // should be equal
     assert.equal(process.env.VARIABLE_3,binding.getenv('VARIABLE_3'));
