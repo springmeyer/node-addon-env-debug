@@ -48,7 +48,7 @@ static NAN_METHOD(addon_setenv)
         std::string key = *v8::String::Utf8Value(args[0]->ToString());
         std::string value = *v8::String::Utf8Value(args[1]->ToString());
         if (!key.empty() && !value.empty()) {
-#if 0//defined(_MSC_VER)
+#if defined(_MSC_VER)
             int ret = _putenv_s(key.c_str(), value.c_str());
 #else
             int ret = setenv(key.c_str(), value.c_str(), 1);
