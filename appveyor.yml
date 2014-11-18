@@ -9,7 +9,7 @@ platform:
 
 install:
   - ps: Install-Product node $env:nodejs_version $env:Platform
-  - npm install
+  - npm install --msvs_version=2013
   - node index.js
 
 build: OFF
